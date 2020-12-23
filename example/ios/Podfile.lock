@@ -1,0 +1,25 @@
+PODS:
+  - Flutter (1.0.0)
+  - pangle_ad_flutter (0.0.1):
+    - Flutter
+    - pangle_ad_flutter/vendor (= 0.0.1)
+  - pangle_ad_flutter/vendor (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - pangle_ad_flutter (from `.symlinks/plugins/pangle_ad_flutter/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  pangle_ad_flutter:
+    :path: ".symlinks/plugins/pangle_ad_flutter/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  pangle_ad_flutter: 928ba502d832bb41da5b948a2ed4307469380cca
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.9.3
