@@ -153,6 +153,7 @@ class ExpressFeedViewState extends State<ExpressFeedView>
       }
     };
     final updated = (args) {
+      print("收到update.........$args");
       double width = args['width'];
       double height = args['height'];
       if (mounted) {

@@ -5,6 +5,9 @@ buildscript {
     repositories {
         google()
         jcenter()
+        flatDir {
+            dirs 'libs'
+        }
     }
 
     dependencies {
@@ -16,6 +19,9 @@ rootProject.allprojects {
     repositories {
         google()
         jcenter()
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 
@@ -30,4 +36,8 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
+}
+dependencies {
+    //implementation files('libs/open_ad_sdk.aar')
+    implementation(name: 'open_ad_sdk', ext: 'aar')
 }

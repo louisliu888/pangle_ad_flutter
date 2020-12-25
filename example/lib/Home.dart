@@ -8,6 +8,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var kBannerId = "945700370";
+
+  @override
+  void initState() {
+    final _kDevicePixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
+    final _kPhysicalSize = WidgetsBinding.instance.window.physicalSize;
+    print(
+        "louis:_kDevicePixelRatio:$_kDevicePixelRatio   width:${_kPhysicalSize.width} height:${_kPhysicalSize.height}");
+
+    final kPangleScreenWidth = _kPhysicalSize.width / _kDevicePixelRatio;
+    final kPangleScreenHeight = _kPhysicalSize.height / _kDevicePixelRatio;
+    print(
+        "louis:kPangleScreenWidth:$kPangleScreenWidth   kPangleScreenHeight:$kPangleScreenHeight");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,10 +36,12 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               ExpressBannerView(
                 config: ExpressBannerConfig(
-                  iOSSlotId: kBannerId,
-                  androidSlotId: kBannerId,
-                  expressSize: PangleExpressSize(width: 600, height: 300),
-                ),
+                    iOSSlotId: kBannerId,
+                    androidSlotId: kBannerId,
+                    expressSize: PangleExpressSize(
+                        width: 600,
+                        height: 300) //PangleExpressSize.aspectRatio(3),
+                    ),
               ),
               // BannerView(
               //   iOS: IOSBannerConfig(

@@ -34,6 +34,7 @@ class ExpressBannerView extends StatefulWidget {
 class ExpressBannerViewState extends State<ExpressBannerView>
     with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   ExpressBannerViewController _controller;
+  final _kDevicePixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
   bool _offstage = true;
   bool _removed = false;
   double _adWidth = kPangleSize;
@@ -105,7 +106,8 @@ class ExpressBannerViewState extends State<ExpressBannerView>
       if (platformView != null) {
         body = Offstage(
           offstage: _offstage,
-          child: SizedBox(
+          child: Container(
+            color: Colors.red,
             width: _adWidth,
             height: _adHeight,
             child: platformView,
@@ -200,6 +202,7 @@ class ExpressBannerViewController {
   }
 
   Future<dynamic> _handleMethod(MethodCall call) {
+    print("====${call.method}========${call.arguments}");
     switch (call.method) {
       case 'remove':
         if (onRemove != null) {

@@ -88,7 +88,8 @@ class _ExpressFeedPageState extends State<ExpressFeedPage> {
   Widget _buildItem(int index) {
     var item = items[index];
     if (item.isAd) {
-      return Center(
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 16),
         child: ExpressFeedView(
           key: _ItemKey(item.feedId),
           id: item.feedId,

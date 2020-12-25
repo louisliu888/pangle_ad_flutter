@@ -5,6 +5,7 @@ import 'package:pangle_ad_flutter/pangle_ad_flutter.dart';
 import 'package:pangle_ad_flutter/pangle_plugin.dart';
 
 import 'Home.dart';
+import 'express_feed_page.dart';
 import 'express_fullscreen_video_page.dart';
 import 'express_interstitial_page.dart';
 import 'express_splash_page.dart';
@@ -69,7 +70,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       color: Colors.white,
-      home: ExpressFullscreenVideoPage(),
+      home: Container(color: Colors.red, child: ExpressFeedPage()),
       initialRoute: '/',
       routes: {
         '/home': (context) => HomePage(),

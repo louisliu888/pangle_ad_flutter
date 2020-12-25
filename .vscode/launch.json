@@ -13,6 +13,7 @@
             "name": "example",
             "cwd": "example",
             "request": "launch",
+            "flutterMode": "debug",
             "type": "dart"
         }
     ]
