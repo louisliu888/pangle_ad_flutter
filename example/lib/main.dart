@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       color: Colors.white,
-      home: Container(color: Colors.red, child: ExpressFeedPage()),
+      home: Container(color: Colors.red, child: ExpressSplashPage()),
       initialRoute: '/',
       routes: {
         '/home': (context) => HomePage(),

@@ -139,6 +139,19 @@ public class PangleAdFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
 //          }
         break;
       case "loadExpressInterstitialAd": // 插屏广告
+        Map<String,Object> interstitialParams = (Map<String,Object>)call.arguments;
+
+        String interstitialSlotId = interstitialParams.get("androidSlotId").toString();
+        boolean deepLink = params.get("isSupportDeepLink") == null ? true: Boolean.parseBoolean(params.get("isSupportDeepLink").toString());
+        Map<String,Double> interstitialExpressArgs = (Map<String,Double>)interstitialParams.get("expressSize") ;
+        Double iexpressWidth = expressArgs.get("width");
+        Double iexpressHeight = expressArgs.get("height");
+
+        val adSlot = PangleAdSlotManager.getInterstitialAdSlot(slotId, isExpress, expressSize, imgSizeIndex, isSupportDeepLink)
+
+        pangle.loadInteractionExpressAd(adSlot, FLTInterstitialExpressAd(activity) {
+          result.success(it)
+        });
         break;
       case "loadExpressFullscreenVideoAd": //全屏视频广告
         break;

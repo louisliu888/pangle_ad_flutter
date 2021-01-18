@@ -45,6 +45,7 @@ public class GocExpressFeedView implements PlatformView, MethodChannel.MethodCal
 
         if (feedId != null) {
             GocNativeExpressFeedAd gocAd = PangleAdManager.shared.getFeedAd(feedId);
+            System.out.println("=============height:"+gocAd.getFeedAd().getExpressAdView().getHeight() + "=====Bottom:"+ gocAd.getFeedAd().getExpressAdView().getBottom());
             this.expressWidth = gocAd.getWidth();
             this.expressHeight = gocAd.getHeight();
             //gocAd.getFeedAd().getExpressAdView().
