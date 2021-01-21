@@ -68,13 +68,14 @@ class _ExpressFeedPageState extends State<ExpressFeedPage> {
             ),
           ]),
       body: Container(
-          child: ListView.builder(
-        itemCount: items.length,
-        controller: _controller,
-        itemBuilder: (context, index) {
-          return _buildItem(index);
-        },
-      )),
+        child: ListView.builder(
+          itemCount: items.length,
+          controller: _controller,
+          itemBuilder: (context, index) {
+            return _buildItem(index);
+          },
+        ),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -173,8 +174,7 @@ class _ExpressFeedPageState extends State<ExpressFeedPage> {
       var offset = renderBox.localToGlobal(Offset.zero);
 
       /// 最底部坐标不低于NavigationBar, 最顶部不高于AppBar
-      var available = offset.dy + size.height < maxAvailableHeight &&
-          offset.dy > minAvailableHeigt;
+      var available = offset.dy + size.height < maxAvailableHeight && offset.dy > minAvailableHeigt;
       itemKey.currentState.setUserInteractionEnabled(available);
     }
   }

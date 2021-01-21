@@ -10,8 +10,7 @@ import 'constant.dart';
 
 final kExpressBannerViewType = 'net.goc.oceantide/pangle_expressbannerview';
 
-typedef void ExpressBannerViewCreatedCallback(
-    ExpressBannerViewController controller);
+typedef void ExpressBannerViewCreatedCallback(ExpressBannerViewController controller);
 
 /// Display banner AD
 /// PlatformView does not support Android API level 19 or below.
@@ -31,8 +30,7 @@ class ExpressBannerView extends StatefulWidget {
   State<StatefulWidget> createState() => ExpressBannerViewState();
 }
 
-class ExpressBannerViewState extends State<ExpressBannerView>
-    with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
+class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   ExpressBannerViewController _controller;
   final _kDevicePixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
   bool _offstage = true;
@@ -81,8 +79,7 @@ class ExpressBannerViewState extends State<ExpressBannerView>
       if (defaultTargetPlatform == TargetPlatform.android) {
         platformView = AndroidView(
           viewType: kExpressBannerViewType,
-          onPlatformViewCreated: (index) =>
-              _onPlatformViewCreated(context, index),
+          onPlatformViewCreated: (index) => _onPlatformViewCreated(context, index),
           creationParams: _createParams(),
           creationParamsCodec: const StandardMessageCodec(),
           // BannerView content is not affected by the Android view's layout direction,
@@ -93,8 +90,7 @@ class ExpressBannerViewState extends State<ExpressBannerView>
       } else if (defaultTargetPlatform == TargetPlatform.iOS) {
         platformView = UiKitView(
           viewType: kExpressBannerViewType,
-          onPlatformViewCreated: (index) =>
-              _onPlatformViewCreated(context, index),
+          onPlatformViewCreated: (index) => _onPlatformViewCreated(context, index),
           creationParams: _createParams(),
           creationParamsCodec: const StandardMessageCodec(),
           // BannerView content is not affected by the Android view's layout direction,
@@ -107,7 +103,6 @@ class ExpressBannerViewState extends State<ExpressBannerView>
         body = Offstage(
           offstage: _offstage,
           child: Container(
-            color: Colors.red,
             width: _adWidth,
             height: _adHeight,
             child: platformView,
@@ -156,8 +151,7 @@ class ExpressBannerViewState extends State<ExpressBannerView>
       }
     };
 
-    var controller =
-        ExpressBannerViewController._(id, onRemove: removed, onUpdate: updated);
+    var controller = ExpressBannerViewController._(id, onRemove: removed, onUpdate: updated);
     _controller = controller;
     if (widget.onBannerViewCreated == null) {
       return;

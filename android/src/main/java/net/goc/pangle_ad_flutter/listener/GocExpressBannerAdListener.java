@@ -10,7 +10,9 @@ import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.flutter.Log;
 import io.flutter.plugin.common.MethodChannel;
@@ -22,12 +24,17 @@ public class GocExpressBannerAdListener implements  TTAdNative.NativeExpressAdLi
     private MethodChannel methodChannel;
     private Activity activity;
     private int interval;
+    Double expressWidth = 0.0 ;
+    Double expressHeight = 0.0 ;
 
-    public GocExpressBannerAdListener(FrameLayout container, MethodChannel methodChannel,Activity activity,int interval){
+    public GocExpressBannerAdListener(FrameLayout container, MethodChannel methodChannel,Activity activity,int interval,Double expressWidth,
+            Double expressHeight ){
         this.container = container;
         this.methodChannel = methodChannel;
         this.activity = activity;
         this.interval = interval;
+        this.expressHeight = expressHeight;
+        this.expressWidth = expressWidth;
     }
 
     @Override
@@ -104,6 +111,9 @@ public class GocExpressBannerAdListener implements  TTAdNative.NativeExpressAdLi
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
-
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("width",expressWidth);
+        params.put("height",expressHeight);
+        methodChannel.invokeMethod("update", params);
     }
 }

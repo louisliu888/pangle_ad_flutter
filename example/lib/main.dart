@@ -72,10 +72,7 @@ class _MyAppState extends State<MyApp> {
       color: Colors.white,
       home: Container(color: Colors.red, child: ExpressSplashPage()),
       initialRoute: '/',
-      routes: {
-        '/home': (context) => HomePage(),
-        '/second': (context) => ExpressSplashPage()
-      },
+      routes: {'/home': (context) => HomePage(), '/second': (context) => ExpressSplashPage()},
     );
   }
 }

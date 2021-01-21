@@ -29,11 +29,12 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
 
     private MethodChannel methodChannel;
     private FrameLayout container ;
-    private Context context;
+    private Activity context;
 
     private int interval;
     Double expressWidth = 0.0 ;
     Double expressHeight = 0.0 ;
+    String slotId ;
 
     public GocExpressBannerView(Activity activity, BinaryMessenger messenger, int id, Object args) {
         methodChannel = new MethodChannel(messenger, "net.goc.oceantide/pangle_expressbannerview_"+id);
@@ -44,13 +45,15 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
 
         Map<String,Object> params = (Map<String,Object>)args;
 
-        String slotId = params.get("androidSlotId").toString();
+        slotId = params.get("androidSlotId").toString();
 
         if (slotId != null) {
             interval = params.get("interval") == null ? 0 : Integer.parseInt(params.get("interval").toString());
             Map<String, Double> expressArgs = (Map<String, Double>)params.get("expressSize");
             expressWidth  = (Double)expressArgs.get("width");
             expressHeight = (Double)expressArgs.get("height");
+
+
             AdSlot adSlot = new AdSlot.Builder()
                     .setCodeId(slotId) //广告位id
                     .setSupportDeepLink(true)
@@ -58,8 +61,10 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
                     .setExpressViewAcceptedSize(expressWidth.floatValue(),expressHeight.floatValue()) //期望模板广告view的size,单位dp
                     .build();
 
-            PangleAdManager.shared.loadExpressBannerAd(adSlot, new GocExpressBannerAdListener(container,methodChannel,activity,interval));
-            invalidateView(expressWidth, expressHeight);
+            PangleAdManager.shared.loadExpressBannerAd(adSlot, new GocExpressBannerAdListener(container,methodChannel,context,interval,expressWidth,expressHeight));
+
+
+            //invalidateView(expressWidth, expressHeight);
         }
 
     }
@@ -83,7 +88,7 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
                 result.success(null);
                 break;
             case "remove":
-
+                container.removeAllViews();
                 result.success(null);
                 break;
             default:

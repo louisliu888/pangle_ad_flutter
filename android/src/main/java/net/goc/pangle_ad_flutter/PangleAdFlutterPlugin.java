@@ -142,16 +142,19 @@ public class PangleAdFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
         Map<String,Object> interstitialParams = (Map<String,Object>)call.arguments;
 
         String interstitialSlotId = interstitialParams.get("androidSlotId").toString();
-        boolean deepLink = params.get("isSupportDeepLink") == null ? true: Boolean.parseBoolean(params.get("isSupportDeepLink").toString());
+        boolean deepLink = interstitialParams.get("isSupportDeepLink") == null ? true: Boolean.parseBoolean(interstitialParams.get("isSupportDeepLink").toString());
         Map<String,Double> interstitialExpressArgs = (Map<String,Double>)interstitialParams.get("expressSize") ;
-        Double iexpressWidth = expressArgs.get("width");
-        Double iexpressHeight = expressArgs.get("height");
+        Double iexpressWidth = interstitialExpressArgs.get("width");
+        Double iexpressHeight = interstitialExpressArgs.get("height");
 
-        val adSlot = PangleAdSlotManager.getInterstitialAdSlot(slotId, isExpress, expressSize, imgSizeIndex, isSupportDeepLink)
+        AdSlot adSlotInterstitial = new AdSlot.Builder()
+                .setCodeId(interstitialSlotId) //广告位id
+                .setSupportDeepLink(deepLink)
+                .setAdCount(1) //请求广告数量为1到3条
+                .setExpressViewAcceptedSize(iexpressWidth.floatValue(),iexpressHeight.floatValue()) //期望模板广告view的size,单位dp
+                .build();
 
-        pangle.loadInteractionExpressAd(adSlot, FLTInterstitialExpressAd(activity) {
-          result.success(it)
-        });
+        pangle.loadInteractionExpressAd(adSlotInterstitial,result) ;
         break;
       case "loadExpressFullscreenVideoAd": //全屏视频广告
         break;

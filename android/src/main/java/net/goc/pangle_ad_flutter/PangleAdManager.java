@@ -19,6 +19,7 @@ import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 
 import net.goc.pangle_ad_flutter.factory.GocNativeExpressFeedAd;
 import net.goc.pangle_ad_flutter.listener.GocExpressFeedAdListener;
+import net.goc.pangle_ad_flutter.listener.GocExpressInterstitialAdListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -208,6 +209,10 @@ public class PangleAdManager {
         feedAdCollection.remove(key);
     }
 
+
+    public void loadInteractionExpressAd(AdSlot adSlotInterstitial,MethodChannel.Result result){
+        ttAdNative.loadInteractionExpressAd(adSlotInterstitial, new GocExpressInterstitialAdListener());
+    }
 
 
 

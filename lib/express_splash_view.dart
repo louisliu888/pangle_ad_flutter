@@ -8,8 +8,7 @@ import 'configs.dart';
 
 final kSplashViewType = 'net.goc.oceantide/pangle_expresssplashview';
 
-typedef void ExpressSplashViewCreatedCallback(
-    ExpressSplashViewController controller);
+typedef void ExpressSplashViewCreatedCallback(ExpressSplashViewController controller);
 
 /// Display banner AD
 /// PlatformView does not support Android API level 19 or below.
@@ -51,8 +50,7 @@ class ExpressSplashView extends StatefulWidget {
   State<StatefulWidget> createState() => ExpressSplashViewState();
 }
 
-class ExpressSplashViewState extends State<ExpressSplashView>
-    with WidgetsBindingObserver {
+class ExpressSplashViewState extends State<ExpressSplashView> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -96,8 +94,7 @@ class ExpressSplashViewState extends State<ExpressSplashView>
       if (defaultTargetPlatform == TargetPlatform.android) {
         platformView = AndroidView(
           viewType: kSplashViewType,
-          onPlatformViewCreated: (index) =>
-              _onPlatformViewCreated(context, index),
+          onPlatformViewCreated: (index) => _onPlatformViewCreated(context, index),
           creationParams: _createParams(width, height),
           creationParamsCodec: const StandardMessageCodec(),
           // BannerView content is not affected by the Android view's layout direction,
@@ -108,8 +105,7 @@ class ExpressSplashViewState extends State<ExpressSplashView>
       } else if (defaultTargetPlatform == TargetPlatform.iOS) {
         platformView = UiKitView(
           viewType: kSplashViewType,
-          onPlatformViewCreated: (index) =>
-              _onPlatformViewCreated(context, index),
+          onPlatformViewCreated: (index) => _onPlatformViewCreated(context, index),
           creationParams: _createParams(width, height),
           creationParamsCodec: const StandardMessageCodec(),
           // BannerView content is not affected by the Android view's layout direction,
@@ -151,6 +147,7 @@ class ExpressSplashViewController {
   }
 
   Future<dynamic> _handleMethod(MethodCall call) {
+    print("收到开屏广告原始回调Flutter信息........................${call.method} ${call.arguments}");
     if (call.method == 'action') {
       var code = call.arguments['code'];
       var message = call.arguments['message'];

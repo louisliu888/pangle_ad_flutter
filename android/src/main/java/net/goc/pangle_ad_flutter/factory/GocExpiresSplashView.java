@@ -53,12 +53,14 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
             Map<String, Double> expressArgs = (Map<String, Double>)params.get("expressSize");
             expressWidth  = (Double)expressArgs.get("width");
             expressHeight = (Double)expressArgs.get("height");
-            AdSlot adSlot = new AdSlot.Builder()
-                    .setCodeId(slotId) //广告位id
-                    .setSupportDeepLink(true)
-                    .setAdCount(1) //请求广告数量为1到3条
-                    .setExpressViewAcceptedSize(expressWidth.floatValue(),expressHeight.floatValue()) //期望模板广告view的size,单位dp
-                    .build();
+            float density = Resources.getSystem().getDisplayMetrics().density;
+//            AdSlot adSlot = new AdSlot.Builder()
+//                    .setCodeId(slotId) //广告位id
+//                    .setExpressViewAcceptedSize(expressWidth.floatValue(),expressHeight.floatValue()) //期望模板广告view的size,单位dp
+//                    .build();
+            int imgWidth = (int)(expressWidth * density);
+            int imgHeight = (int)(expressHeight * density);
+            AdSlot adSlot = new AdSlot.Builder().setCodeId(slotId).setImageAcceptedSize(imgWidth,imgHeight).build();
 
             PangleAdManager.shared.loadExpressSplashAd(adSlot, new GocExpressSplashAdListener(container,methodChannel,activity),timeout);
             invalidateView(expressWidth, expressHeight);
@@ -101,6 +103,7 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
 
     @Override
     public void dispose() {
+        Log.e("开屏广告","销毁......................................");
         container.removeAllViews();
     }
 }

@@ -16,6 +16,8 @@ typedef NS_ENUM(NSUInteger, BUAdSDKTerritory) {
     BUAdSDKTerritory_NO_CN,
 };
 
+@class BUAdSlot;
+
 typedef void (^BUConfirmGDPR)(BOOL isAgreed);
 
 @interface BUAdSDKManager : NSObject
@@ -92,4 +94,8 @@ This property should be set when integrating non-China areas at the same time, o
 
 @interface BUAdSDKManager (MopubAdaptor) <BUMopubAdMarkUpDelegate>
 
+@end
+
+@interface BUAdSDKManager (BUAdNR)
++ (NSDictionary *)bunr_dictionaryWithSlot:(BUAdSlot *)slot isDynamicRender:(BOOL)isDynamicRender;
 @end
