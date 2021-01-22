@@ -20,6 +20,7 @@ import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import net.goc.pangle_ad_flutter.factory.GocNativeExpressFeedAd;
 import net.goc.pangle_ad_flutter.listener.GocExpressFeedAdListener;
 import net.goc.pangle_ad_flutter.listener.GocExpressInterstitialAdListener;
+import net.goc.pangle_ad_flutter.listener.GocFullScreenAdListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class PangleAdManager {
 
     public static PangleAdManager shared = new PangleAdManager();
     Context context;
-    private  TTAdManager ttAdManager;
+    private TTAdManager ttAdManager;
     private TTAdNative ttAdNative;
 
     private Map<String, GocNativeExpressFeedAd> feedAdCollection = new HashMap<String,GocNativeExpressFeedAd>();
@@ -166,6 +167,7 @@ public class PangleAdManager {
      * @param listener
      */
     public void loadExpressBannerAd(AdSlot adSlot , TTAdNative.NativeExpressAdListener listener ) {
+        Log.e("ERROR","加载banner广告 loadExpressBannerAd==========================================================================");
         ttAdNative.loadBannerExpressAd(adSlot, listener);
     }
 
@@ -176,6 +178,7 @@ public class PangleAdManager {
      * @param timeout
      */
     public void loadExpressSplashAd(AdSlot adSlot , TTAdNative.SplashAdListener listener , int timeout) {
+         Log.e("ERROR","加载开屏页广告 loadExpressSplashAd==========================================================================");
          timeout =  timeout<=0 ? 5: timeout;
          ttAdNative.loadSplashAd(adSlot, listener, (timeout * 1000));
     }
@@ -188,6 +191,7 @@ public class PangleAdManager {
      * @param result
      */
     public void loadFeedExpressAd(AdSlot adSlot, Double width, Double height, MethodChannel.Result result) {
+        Log.e("ERROR","加载信息流广告 loadFeedExpressAd==========================================================================");
         ttAdNative.loadNativeExpressAd(adSlot,new GocExpressFeedAdListener(result,width,height));
     }
 
@@ -210,10 +214,22 @@ public class PangleAdManager {
     }
 
 
-    public void loadInteractionExpressAd(AdSlot adSlotInterstitial,MethodChannel.Result result){
-        ttAdNative.loadInteractionExpressAd(adSlotInterstitial, new GocExpressInterstitialAdListener());
+    /**
+     * 加载插屏广告
+     * @param adSlotInterstitial
+     */
+    public void loadInteractionExpressAd(AdSlot adSlotInterstitial,GocExpressInterstitialAdListener adListener){
+        Log.e("ERROR","加载插屏广告 loadInteractionExpressAd==========================================================================");
+        ttAdNative.loadInteractionExpressAd(adSlotInterstitial, adListener);
     }
 
-
-
+    /**
+     * 加载插屏广告
+     * @param fullScreenSlot
+     * @param adListener
+     */
+    public void loadFullScreenExpressAd(AdSlot fullScreenSlot, GocFullScreenAdListener adListener){
+        Log.e("ERROR","加载全屏视频广告 loadFullScreenExpressAd==========================================================================");
+        ttAdNative.loadFullScreenVideoAd(fullScreenSlot, adListener);
+    }
 }

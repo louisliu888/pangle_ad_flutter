@@ -20,13 +20,13 @@ public class GocExpressSplashAdListener implements  TTAdNative.SplashAdListener 
 
     private FrameLayout container;
     private MethodChannel methodChannel;
-    private Activity activity;
 
 
-    public GocExpressSplashAdListener(FrameLayout container, MethodChannel methodChannel, Activity activity){
+
+    public GocExpressSplashAdListener(FrameLayout container, MethodChannel methodChannel ){
         this.container = container;
         this.methodChannel = methodChannel;
-        this.activity = activity;
+
 
     }
 

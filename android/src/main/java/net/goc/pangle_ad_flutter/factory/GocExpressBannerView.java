@@ -63,8 +63,7 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
 
             PangleAdManager.shared.loadExpressBannerAd(adSlot, new GocExpressBannerAdListener(container,methodChannel,context,interval,expressWidth,expressHeight));
 
-
-            //invalidateView(expressWidth, expressHeight);
+            invalidateView(expressWidth, expressHeight);
         }
 
     }

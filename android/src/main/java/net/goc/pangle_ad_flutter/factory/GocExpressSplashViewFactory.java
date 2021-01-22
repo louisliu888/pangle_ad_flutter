@@ -14,9 +14,9 @@ import io.flutter.plugin.platform.PlatformViewFactory;
 public class GocExpressSplashViewFactory extends PlatformViewFactory {
 
 
-    private  WeakReference<Activity> activity;
+    //private  WeakReference<Activity> activity;
     private  BinaryMessenger messenger;
-    private Bundle bundle;
+    //private Bundle bundle;
 
     public GocExpressSplashViewFactory(BinaryMessenger messenger) {
         super(StandardMessageCodec.INSTANCE);
@@ -25,16 +25,16 @@ public class GocExpressSplashViewFactory extends PlatformViewFactory {
 
     @Override
     public PlatformView create(Context context, int viewId, Object args) {
-        return new GocExpiresSplashView(activity.get(), this.messenger, viewId, args);
+        return new GocExpiresSplashView(context, this.messenger, viewId, args);
     }
 
-    public void attachActivity(Activity activity) {
-        this.activity = new WeakReference(activity);
-    }
-
-    public void detachActivity() {
-        this.activity.clear();
-        this.activity = null;
-    }
+//    public void attachActivity(Activity activity) {
+//        this.activity = new WeakReference(activity);
+//    }
+//
+//    public void detachActivity() {
+//        this.activity.clear();
+//        this.activity = null;
+//    }
 
 }

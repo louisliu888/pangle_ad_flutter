@@ -6,8 +6,7 @@ import 'package:pangle_ad_flutter/pangle_plugin.dart';
 
 class InterstitialExpressPage extends StatefulWidget {
   @override
-  _InterstitialExpressPageState createState() =>
-      _InterstitialExpressPageState();
+  _InterstitialExpressPageState createState() => _InterstitialExpressPageState();
 }
 
 class _InterstitialExpressPageState extends State<InterstitialExpressPage> {
@@ -45,6 +44,6 @@ class _InterstitialExpressPageState extends State<InterstitialExpressPage> {
         expressSize: PangleExpressSize(width: width, height: height),
       ),
     );
-    print(jsonEncode(result));
+    print(result);
   }
 }

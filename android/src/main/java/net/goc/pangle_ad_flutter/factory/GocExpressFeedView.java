@@ -74,7 +74,6 @@ public class GocExpressFeedView implements PlatformView, MethodChannel.MethodCal
                 result.success(null);
                 break;
             case "remove":
-
                 result.success(null);
                 break;
             default:

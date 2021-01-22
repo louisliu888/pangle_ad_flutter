@@ -31,16 +31,16 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
 
     private MethodChannel methodChannel;
     private FrameLayout container ;
-    private Context context;
+    //private Context context;
 
     private int timeout;
     Double expressWidth = 0.0 ;
     Double expressHeight = 0.0 ;
 
-    public GocExpiresSplashView(Activity activity, BinaryMessenger messenger, int id, Object args) {
+    public GocExpiresSplashView(Context context, BinaryMessenger messenger, int id, Object args) {
         methodChannel = new MethodChannel(messenger, "net.goc.oceantide/pangle_expresssplashview_"+id);
         methodChannel.setMethodCallHandler(this);
-        context = activity;
+        //context = activity;
         container = new FrameLayout(context);
 
 
@@ -62,7 +62,7 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
             int imgHeight = (int)(expressHeight * density);
             AdSlot adSlot = new AdSlot.Builder().setCodeId(slotId).setImageAcceptedSize(imgWidth,imgHeight).build();
 
-            PangleAdManager.shared.loadExpressSplashAd(adSlot, new GocExpressSplashAdListener(container,methodChannel,activity),timeout);
+            PangleAdManager.shared.loadExpressSplashAd(adSlot, new GocExpressSplashAdListener(container,methodChannel),timeout);
             invalidateView(expressWidth, expressHeight);
         }
 

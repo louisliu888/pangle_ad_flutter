@@ -26,6 +26,7 @@ public class GocExpressBannerAdListener implements  TTAdNative.NativeExpressAdLi
     private int interval;
     Double expressWidth = 0.0 ;
     Double expressHeight = 0.0 ;
+    View expressAdView;
 
     public GocExpressBannerAdListener(FrameLayout container, MethodChannel methodChannel,Activity activity,int interval,Double expressWidth,
             Double expressHeight ){
@@ -39,18 +40,19 @@ public class GocExpressBannerAdListener implements  TTAdNative.NativeExpressAdLi
 
     @Override
     public void onSelected(int i, String s) {
+        Log.e("Banner","Banner 广告 onSelected......=============================================================================");
         container.removeAllViews();
         methodChannel.invokeMethod("remove", null);
     }
 
     @Override
     public void onCancel() {
-
+        Log.e("Banner","Banner 广告 onCancel......=============================================================================");
     }
 
     @Override
     public void onRefuse() {
-
+        Log.e("Banner","Banner 广告 onRefuse......=============================================================================");
     }
 
     @Override
@@ -80,40 +82,43 @@ public class GocExpressBannerAdListener implements  TTAdNative.NativeExpressAdLi
         ad.render();
 
         container.removeAllViews();
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        View expressAdView = ad.getExpressAdView();
-        container.addView(expressAdView, params);
-        Log.e("Banner","Banner 广告 onNativeExpressAdLoad......");
+        expressAdView = ad.getExpressAdView();
+
+        Log.e("Banner","Banner 广告 onNativeExpressAdLoad......=============================================================================");
     }
 
     @Override
     public void onAdDismiss() {
-        Log.e("Banner","Banner 广告 onAdDismiss......");
+        Log.e("Banner","Banner 广告 onAdDismiss......=============================================================================");
     }
 
     @Override
     public void onAdClicked(View view, int i) {
-        Log.e("Banner","Banner 广告 onAdClicked......");
+        Log.e("Banner","Banner 广告 onAdClicked......=============================================================================");
         methodChannel.invokeMethod("reload", null);
     }
 
     @Override
     public void onAdShow(View view, int i) {
-        Log.e("Banner","Banner 广告 onAdShow......");
+
+        Log.e("Banner","Banner 广告 onAdShow......=============================================================================");
     }
 
     @Override
     public void onRenderFail(View view, String s, int i) {
-        Log.e("Banner","Banner 广告 renderFail......");
+        Log.e("Banner","Banner 广告 renderFail......=============================================================================");
         container.removeAllViews();
         methodChannel.invokeMethod("remove", null);
     }
 
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
+        Log.e("Banner","Banner 广告 onRenderSuccess......=============================================================================");
         Map<String,Object> params = new HashMap<String,Object>();
         params.put("width",expressWidth);
         params.put("height",expressHeight);
         methodChannel.invokeMethod("update", params);
+        //FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        container.addView(expressAdView);
     }
 }
