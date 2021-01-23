@@ -63,8 +63,9 @@ public class GocExpressInterstitialAdListener implements  TTAdNative.NativeExpre
 
         Log.d("插屏广告","onAdDismiss");
         try {
-            ttNativeAd.destroy();
-            ttNativeAd = null;
+            //ttNativeAd.destroy();
+            this.ttNativeAd = null;
+            this.activity = null;
         } catch ( Exception e) {
             //e.printStackTrace();
         }

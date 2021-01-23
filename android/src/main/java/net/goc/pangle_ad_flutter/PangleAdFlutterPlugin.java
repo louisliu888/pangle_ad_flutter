@@ -79,7 +79,7 @@ public class PangleAdFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
 
-    Log.e("ERROR","onAttachedToEngine===================插件注册==========================================================================");
+    Log.e("ERROR","onAttachedToEngine=========================插件注册==========================================================================");
     context = flutterPluginBinding.getApplicationContext();
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), kChannelName);
     channel.setMethodCallHandler(this);
@@ -138,7 +138,7 @@ public class PangleAdFlutterPlugin implements FlutterPlugin, MethodCallHandler, 
                 .setExpressViewAcceptedSize(expressWidth.floatValue(),expressHeight.floatValue()) //期望模板广告view的size,单位dp
                 .build();
         pangle.loadFeedExpressAd(adSlot,expressWidth,expressHeight,result);
-        result.success(true);
+        //result.success(true);
         break;
       case "loadExpressInterstitialAd": // 插屏广告
         Map<String,Object> interstitialParams = (Map<String,Object>)call.arguments;

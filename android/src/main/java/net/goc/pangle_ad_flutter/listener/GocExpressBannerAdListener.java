@@ -95,13 +95,15 @@ public class GocExpressBannerAdListener implements  TTAdNative.NativeExpressAdLi
     @Override
     public void onAdClicked(View view, int i) {
         Log.e("Banner","Banner 广告 onAdClicked......=============================================================================");
-        methodChannel.invokeMethod("reload", null);
+        methodChannel.invokeMethod("remove", null);
     }
 
     @Override
     public void onAdShow(View view, int i) {
-
-        Log.e("Banner","Banner 广告 onAdShow......=============================================================================");
+        int height=view.getMeasuredHeight();
+        int width=view.getMeasuredWidth();
+        Log.e("Banner",height +"======" + width+"Banner 广告 onAdShow......=============================================================================");
+        //Log.e("Banner","Banner 广告 onAdShow......=============================================================================");
     }
 
     @Override
@@ -114,6 +116,9 @@ public class GocExpressBannerAdListener implements  TTAdNative.NativeExpressAdLi
     @Override
     public void onRenderSuccess(View view, float v, float v1) {
         Log.e("Banner","Banner 广告 onRenderSuccess......=============================================================================");
+        int height=view.getMeasuredHeight();
+        int width=view.getMeasuredWidth();
+        Log.e("Banner",height +"======" + width+"Banner 广告 onRenderSuccess......=============================================================================");
         Map<String,Object> params = new HashMap<String,Object>();
         params.put("width",expressWidth);
         params.put("height",expressHeight);

@@ -87,7 +87,7 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
                 result.success(null);
                 break;
             case "remove":
-
+                container.removeAllViews();
                 result.success(null);
                 break;
             default:

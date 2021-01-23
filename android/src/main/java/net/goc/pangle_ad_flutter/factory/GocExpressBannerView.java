@@ -37,12 +37,14 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
     String slotId ;
 
     public GocExpressBannerView(Activity activity, BinaryMessenger messenger, int id, Object args) {
+
+        Log.d("Banner",".............................GocExpressBannerVie111111w=========");
         methodChannel = new MethodChannel(messenger, "net.goc.oceantide/pangle_expressbannerview_"+id);
         methodChannel.setMethodCallHandler(this);
         context = activity;
         container = new FrameLayout(context);
 
-
+        Log.d("Banner",".............................GocExpressBannerView=========");
         Map<String,Object> params = (Map<String,Object>)args;
 
         slotId = params.get("androidSlotId").toString();
@@ -80,7 +82,7 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
-        Log.d("ExpressBannerAD",call.method+".............................");
+        Log.d("Banner",call.method+".............................banner 广告=========");
         switch (call.method){
             case "update":
                 invalidateView(expressWidth, expressHeight);

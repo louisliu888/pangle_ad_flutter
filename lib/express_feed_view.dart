@@ -42,8 +42,7 @@ class ExpressFeedViewKey extends GlobalObjectKey {
   const ExpressFeedViewKey(Object value) : super(value);
 }
 
-class ExpressFeedViewState extends State<ExpressFeedView>
-    with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
+class ExpressFeedViewState extends State<ExpressFeedView> with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   ExpressFeedViewController _controller;
   bool _offstage = true;
   bool _removed = false;
@@ -114,7 +113,8 @@ class ExpressFeedViewState extends State<ExpressFeedView>
       if (platformView != null) {
         body = Offstage(
           offstage: _offstage,
-          child: SizedBox(
+          child: Container(
+            margin: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 5),
             width: _adWidth,
             height: _adHeight,
             child: platformView,

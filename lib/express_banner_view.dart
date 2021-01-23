@@ -54,6 +54,8 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    print("banner广告----->dispose=======================");
+
     _remove();
     super.dispose();
   }
@@ -61,6 +63,7 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
   @override
   void didChangeMetrics() {
     var size = WidgetsBinding.instance.window.physicalSize;
+    print("banner广告----->didChangeMetrics,_lastSize:${_lastSize}  --- size:${size}");
     if (_lastSize?.width != size.width || _lastSize?.height != size.height) {
       _lastSize = size;
       _controller?._update(_createParams());
@@ -70,9 +73,11 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    print("build....................................................................................1");
     if (_removed) {
       return SizedBox.shrink();
     }
+    print("build....................................................................................22222");
     Widget body;
     try {
       Widget platformView;
@@ -99,21 +104,29 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
           layoutDirection: TextDirection.ltr,
         );
       }
+      print("build....................................................................................333333");
       if (platformView != null) {
+        print("build....................................................................................333333----2222222${_offstage}");
         body = Offstage(
           offstage: _offstage,
           child: Container(
+            color: Colors.red,
+            alignment: Alignment.center,
+            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
             width: _adWidth,
             height: _adHeight,
             child: platformView,
           ),
         );
       }
-    } on PlatformException {}
+    } on PlatformException {
+      print("build....................................................................................44444444");
+    }
     if (body == null) {
       body = SizedBox.shrink();
     }
 
+    print("build....................................................................................555555");
     return body;
   }
 
@@ -128,6 +141,7 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
   }
 
   void _onPlatformViewCreated(BuildContext context, int id) {
+    print("_onPlatformViewCreated:${_adWidth}高:${_adHeight}");
     final removed = () {
       if (widget.onRemove != null) {
         widget.onRemove();
@@ -142,6 +156,7 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
     final updated = (args) {
       double width = args['width'];
       double height = args['height'];
+      print("update banner 广告的高度和宽度:原始宽:${_adWidth}高:${_adHeight}-------------> 更新:${width} 高:${height}");
       if (mounted) {
         setState(() {
           this._offstage = false;

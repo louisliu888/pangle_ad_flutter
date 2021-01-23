@@ -78,9 +78,7 @@ class PangleExpressSize {
       : assert(width != null && width > 0),
         assert(height != null && height > 0),
         this.width = width > kPangleScreenWidth ? kPangleScreenWidth : width,
-        this.height = height > kPangleScreenWidth / width * height
-            ? kPangleScreenWidth / width * height
-            : height;
+        this.height = height > kPangleScreenWidth / width * height ? kPangleScreenWidth / width * height : height;
 
   /// 模板渲染时必填
   ///
@@ -95,8 +93,8 @@ class PangleExpressSize {
         this.height = kPangleScreenWidth / 0.5625;
 
   PangleExpressSize.aspectRatio16_9()
-      : this.width = kPangleScreenWidth,
-        this.height = kPangleScreenWidth * 0.5625;
+      : this.width = kPangleScreenWidth - 20,
+        this.height = (kPangleScreenWidth - 20) * 0.5625;
 
   PangleExpressSize.percent(double widthPercent, double heightPercent)
       : this.width = kPangleScreenWidth * widthPercent,
@@ -131,9 +129,7 @@ class PangleImageSize {
       : assert(width != null && width > 0),
         assert(height != null && height > 0),
         this.width = width > kPangleScreenWidth ? kPangleScreenWidth : width,
-        this.height = height > kPangleScreenWidth / width * height
-            ? kPangleScreenWidth / width * height
-            : height;
+        this.height = height > kPangleScreenWidth / width * height ? kPangleScreenWidth / width * height : height;
 
   /// [aspectRatio] item宽高比例
   PangleImageSize.aspectRatio(double aspectRatio)

@@ -59,7 +59,7 @@ public class GocExpressFeedAdListener implements  TTAdNative.NativeExpressAdList
         args.put("count",data.size());
         args.put("data",data);
         result.success(args);
-        Log.e("Banner","信息流 广告 onFeedAdLoad......");
+        Log.e("Banner","信息流 广告 onNativeExpressAdLoad==================......");
     }
 
 //    @Override

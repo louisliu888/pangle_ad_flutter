@@ -67,13 +67,14 @@ public class GocExpressFeedView implements PlatformView, MethodChannel.MethodCal
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
-        Log.d("ExpressBannerAD",call.method+".............................");
+        Log.d("ExpressBannerAD",call.method+".............................信息流广告.........");
         switch (call.method){
             case "update":
                 invalidateView(expressWidth, expressHeight);
                 result.success(null);
                 break;
             case "remove":
+                container.removeAllViews();
                 result.success(null);
                 break;
             default:
