@@ -5,7 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c241a68a-fe60-493d-9c33-e864283f0ec7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/banner/GocExpressBannerView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/banner/GocExpressBannerViewFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pangle_ad_flutter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pangle_ad_flutter.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/libs/open_ad_sdk.aar" beforeDir="false" afterPath="$PROJECT_DIR$/android/libs/open_ad_sdk.aar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/PangleAdFlutterPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/PangleAdFlutterPlugin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/PangleAdManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/PangleAdManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/factory/GocExpiresSplashView.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/splash/GocExpiresSplashView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/factory/GocExpressBannerView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/factory/GocExpressBannerViewFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/splash/GocExpressSplashViewFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/factory/GocExpressFeedView.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/feed/GocExpressFeedView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/factory/GocExpressFeedViewFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/feed/GocExpressFeedViewFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/factory/GocExpressSplashViewFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/factory/GocNativeExpressFeedAd.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/feed/GocNativeExpressFeedAd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/listener/GocExpressBannerAdListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/listener/GocExpressFeedAdListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/listener/GocExpressInterstitialAdListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/interstitial/GocExpressInterstitialAdListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/listener/GocExpressSplashAdListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/listener/GocFullScreenAdListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/net/goc/pangle_ad_flutter/full_screen/GocFullScreenAdListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/libs/open_ad_sdk.aar" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/libs/open_ad_sdk.aar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/Home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/Home.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/configs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/configs.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/express_banner_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/express_banner_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/express_splash_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/express_splash_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/pangle_plugin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/pangle_plugin.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +49,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -34,7 +63,10 @@
       <method v="2" />
     </configuration>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="c241a68a-fe60-493d-9c33-e864283f0ec7" name="Default Changelist" comment="" />
@@ -44,5 +76,23 @@
       <updated>1611278544315</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="2078" height="493" key="GridCell.Tab.0.bottom" timestamp="1611806288151">
+      <screen x="0" y="25" width="2560" height="1367" />
+    </state>
+    <state width="2078" height="493" key="GridCell.Tab.0.bottom/0.25.2560.1367@0.25.2560.1367" timestamp="1611806288151" />
+    <state width="2078" height="493" key="GridCell.Tab.0.center" timestamp="1611806288151">
+      <screen x="0" y="25" width="2560" height="1367" />
+    </state>
+    <state width="2078" height="493" key="GridCell.Tab.0.center/0.25.2560.1367@0.25.2560.1367" timestamp="1611806288151" />
+    <state width="2078" height="493" key="GridCell.Tab.0.left" timestamp="1611806288151">
+      <screen x="0" y="25" width="2560" height="1367" />
+    </state>
+    <state width="2078" height="493" key="GridCell.Tab.0.left/0.25.2560.1367@0.25.2560.1367" timestamp="1611806288151" />
+    <state width="2078" height="493" key="GridCell.Tab.0.right" timestamp="1611806288151">
+      <screen x="0" y="25" width="2560" height="1367" />
+    </state>
+    <state width="2078" height="493" key="GridCell.Tab.0.right/0.25.2560.1367@0.25.2560.1367" timestamp="1611806288151" />
   </component>
 </project>

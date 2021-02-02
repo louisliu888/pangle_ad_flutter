@@ -1,12 +1,17 @@
 package net.goc.pangle_ad_flutter.banner;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
@@ -14,6 +19,8 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+
+import net.goc.pangle_ad_flutter.PangleAdManager;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -25,13 +32,12 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
-public class GocExpressBannerView implements PlatformView, MethodChannel.MethodCallHandler,TTAdNative.NativeExpressAdListener,
-        TTNativeExpressAd.AdInteractionListener, TTAdDislike.DislikeInteractionCallback {
+public class GocExpressBannerView implements PlatformView, MethodChannel.MethodCallHandler {
 
 
     private MethodChannel methodChannel;
     private FrameLayout container ;
-    private WeakReference<Activity> activity;
+   // private Activity activity;
     private TTNativeExpressAd ad;
 
     private int interval;
@@ -39,13 +45,18 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
     Double expressHeight = 0.0 ;
     String slotId ;
 
-    public GocExpressBannerView(WeakReference<Activity> activity, BinaryMessenger messenger, int id, Object args) {
+    public GocExpressBannerView( BinaryMessenger messenger, int id, Object args,Context context) {
 
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses()) {
+            Log.e("BANNER"," ====================================="+ processInfo.processName);
+
+        }
         Log.d("Banner","GocExpressBannerView=========SDK版本:" + TTAdSdk.getAdManager().getSDKVersion());
         methodChannel = new MethodChannel(messenger, "net.goc.oceantide/pangle_expressbannerview_"+id);
         methodChannel.setMethodCallHandler(this);
-        this.activity = activity;
-        container = new FrameLayout(activity.get());
+        //this.activity = activity;
+        container = new FrameLayout(context);
 
         Map<String,Object> params = (Map<String,Object>)args;
         slotId = params.get("androidSlotId").toString();
@@ -55,6 +66,16 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
             Map<String, Double> expressArgs = (Map<String, Double>)params.get("expressSize");
             expressWidth  = (Double)expressArgs.get("width");
             expressHeight = (Double)expressArgs.get("height");
+            updateBanner();
+        }
+
+    }
+
+
+    public void updateBanner(){
+        TTNativeExpressAd ad = PangleAdManager.shared.getBannerAd(slotId);
+        if(ad == null){
+            Log.e("Banner2","获取的Banner Ad 对象为空.........................");
 
             float density = Resources.getSystem().getDisplayMetrics().density;
             AdSlot adSlot = new AdSlot.Builder()
@@ -64,12 +85,83 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
                     //.setImageAcceptedSize((int)(expressWidth*density),(int)(expressHeight*density))
                     .setExpressViewAcceptedSize(expressWidth.floatValue(),expressHeight.floatValue()) //期望模板广告view的size,单位dp
                     .build();
-            TTAdManager ttAdManager = TTAdSdk.getAdManager();
-            TTAdNative ttAdNative = ttAdManager.createAdNative(activity.get());
-            ttAdNative.loadBannerExpressAd(adSlot, this);
-            //ttAdNative.loadNativeExpressAd(adSlot,this);
+
+            io.flutter.Log.e("Banner2","loadExpressBannerAd.......................................................2");
+            PangleAdManager.shared.loadExpressBannerAd(adSlot, new TTAdNative.NativeExpressAdListener(){
+                TTNativeExpressAd ad;
+                @Override
+                @MainThread
+                public void onError(int i, String s) {
+                    io.flutter.Log.e("Banner2","。。。。。。。。。。。。。。。。。。。。。。。。errCode:"+i +" message:"+s);
+                }
+
+                @Override
+                @MainThread
+                public void onNativeExpressAdLoad(List<TTNativeExpressAd> list) {
+                    if(list.size() <= 0){
+                        return;
+                    }
+                    io.flutter.Log.e("Banner2","。。。。。。。。。。。加载成功。。。。。。。。。。。。。onNativeExpressAdLoad");
+                    ad = list.get(0);
+                    if(interval>0){
+                        ad.setSlideIntervalTime(interval * 1000);
+                    }
+                    ad.render();
+                    ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
+                        @Override
+                        public void onAdClicked(View view, int i) {
+                            Log.e("Banner2","onAdClicked.........................");
+                        }
+
+                        @Override
+                        public void onAdShow(View view, int i) {
+                            Log.e("Banner2","onshow.........................");
+                        }
+
+                        @Override
+                        public void onRenderFail(View view, String s, int i) {
+                            Log.e("Banner2","onRenderFail........................."+i+" "+s);
+                        }
+
+                        @Override
+                        public void onRenderSuccess(View view, float v, float v1) {
+                            invalidateView(expressWidth,expressHeight);
+                            container.removeAllViews();
+                            container.addView(view);
+                        }
+                    });
+                }
+            });
+            return;
         }
 
+        if(interval>0){
+            ad.setSlideIntervalTime(interval * 1000);
+        }
+        ad.render();
+        ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
+            @Override
+            public void onAdClicked(View view, int i) {
+                Log.e("Banner2","onAdClicked.........................");
+            }
+
+            @Override
+            public void onAdShow(View view, int i) {
+                Log.e("Banner2","onshow.........................");
+            }
+
+            @Override
+            public void onRenderFail(View view, String s, int i) {
+                Log.e("Banner2","onRenderFail........................."+i+" "+s);
+            }
+
+            @Override
+            public void onRenderSuccess(View view, float v, float v1) {
+                invalidateView(expressWidth,expressHeight);
+                container.removeAllViews();
+                container.addView(view);
+            }
+        });
     }
 
     private void invalidateView(Double width, Double height) {
@@ -81,6 +173,8 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
         methodChannel.invokeMethod("update", params);
 
     }
+
+
 
     @Override
     public void onFlutterViewAttached(@NonNull View flutterView) {
@@ -107,12 +201,11 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
         Log.d("Banner",call.method+".............................banner 广告=========");
         switch (call.method){
             case "update":
-                invalidateView(expressWidth, expressHeight);
+                updateBanner();
                 result.success(null);
                 break;
             case "remove":
                 clear();
-
                 result.success(null);
                 break;
             default:
@@ -131,104 +224,9 @@ public class GocExpressBannerView implements PlatformView, MethodChannel.MethodC
         Log.d("Banner","Banner dispose========================================");
         clear();
     }
-
     private void clear(){
-        if(ad != null){
-            ad.destroy();
-            this.ad = null;
-        }
         container.removeAllViews();
-        this.activity = null;
     }
 
-    @Override
-    public void onSelected(int i, String s) {
-        Log.e("Banner","Banner 广告 onSelected......=============================================================================");
-        container.removeAllViews();
-        methodChannel.invokeMethod("remove", null);
-    }
 
-    @Override
-    public void onCancel() {
-        Log.e("Banner","Banner 广告 onCancel......=============================================================================");
-    }
-
-    @Override
-    public void onRefuse() {
-        Log.e("Banner","Banner 广告 onRefuse......=============================================================================");
-    }
-
-    @Override
-    public void onError(int i, String s) {
-        Log.e("Banner","Banner 广告 onError....code:"+i +" message:"+s);
-        container.removeAllViews();
-        methodChannel.invokeMethod("remove", null);
-    }
-
-    @Override
-    public void onNativeExpressAdLoad(List<TTNativeExpressAd> ttNativeExpressAds) {
-        Log.e("Banner","Banner 广告 onNativeExpressAdLoad......=============================================================================");
-
-        if (ttNativeExpressAds == null || ttNativeExpressAds.isEmpty()) {
-            return;
-        }
-        ad = ttNativeExpressAds.get(0);
-
-        //设置广告互动监听回调
-        ad.setExpressInteractionListener(this);
-
-        //在banner中显示网盟提供的dislike icon，有助于广告投放精准度提升
-        ad.setDislikeCallback(activity.get(), this);
-        // 设置轮播的时间间隔  间隔在30s到120秒之间的值，不设置默认不轮播
-        if(interval >29){
-            ad.setSlideIntervalTime(interval);
-        }
-        ad.render();
-
-        //container.removeAllViews();
-        //expressAdView = ad.getExpressAdView();
-
-    }
-
-    @Override
-    public void onAdDismiss() {
-        clear();
-        Log.e("Banner","Banner 广告 onAdDismiss......=============================================================================");
-    }
-
-    @Override
-    public void onAdClicked(View view, int i) {
-        Log.e("Banner","Banner 广告 onAdClicked......=============================================================================");
-        methodChannel.invokeMethod("remove", null);
-    }
-
-    @Override
-    public void onAdShow(View view, int i) {
-        int height=view.getMeasuredHeight();
-        int width=view.getMeasuredWidth();
-        Log.e("Banner",height +"======" + width+"Banner 广告 onAdShow......=============================================================================");
-        //Log.e("Banner","Banner 广告 onAdShow......=============================================================================");
-    }
-
-    @Override
-    public void onRenderFail(View view, String s, int i) {
-        Log.e("Banner","Banner 广告 renderFail......=============================================================================");
-        clear();
-        methodChannel.invokeMethod("remove", null);
-    }
-
-    @Override
-    public void onRenderSuccess(View view, float v, float v1) {
-
-        Log.e("Banner","Banner 广告 onRenderSuccess......=============================================================================");
-        int height=view.getMeasuredHeight();
-        int width=view.getMeasuredWidth();
-        io.flutter.Log.e("Banner",height +"======" + width+"Banner 广告 onRenderSuccess......=============================================================================");
-        Map<String,Object> params = new HashMap<String,Object>();
-        params.put("width",expressWidth);
-        params.put("height",expressHeight);
-        methodChannel.invokeMethod("update", params);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        container.addView(ad.getExpressAdView(),layoutParams);
-    }
 }

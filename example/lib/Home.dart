@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pangle_ad_flutter/pangle_ad_flutter.dart';
+import 'package:pangle_ad_flutter/pangle_plugin.dart';
 
 import 'express_feed_page.dart';
 import 'express_fullscreen_video_page.dart';
@@ -11,7 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var kBannerId = "945700370";
+  var kBannerId = "945804687";
+  ExpressBannerViewController controller;
 
   @override
   void initState() {
@@ -22,6 +24,8 @@ class _HomePageState extends State<HomePage> {
     final kPangleScreenWidth = _kPhysicalSize.width / _kDevicePixelRatio;
     final kPangleScreenHeight = _kPhysicalSize.height / _kDevicePixelRatio;
     print("louis:kPangleScreenWidth:$kPangleScreenWidth   kPangleScreenHeight:$kPangleScreenHeight");
+    pangle.requestPermissionIfNecessary();
+
     super.initState();
   }
 
@@ -36,10 +40,62 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
+              // FutureBuilder(
+              //   future: pangle.loadExpressBannerAd(
+              //     config: ExpressBannerConfig(
+              //       iOSSlotId: kBannerId,
+              //       androidSlotId: kBannerId,
+              //       expressSize: PangleBannerExpressSize.withWidth(kPangleScreenWidth, BannerSize.banner_600_300),
+              //     ),
+              //   ),
+              //   builder: (context, snap) {
+              //     if (snap.connectionState == ConnectionState.done) {
+              //       return ExpressBannerView(
+              //         config: ExpressBannerConfig(
+              //             iOSSlotId: kBannerId,
+              //             androidSlotId: kBannerId,
+              //             expressSize: PangleBannerExpressSize.withWidth(kPangleScreenWidth, BannerSize.banner_600_300) //PangleExpressSize.aspectRatio(3),
+
+              //             ),
+              //         onBannerViewCreated: (controller) {
+              //           this.controller = controller;
+              //         },
+              //       );
+              //     } else {
+              //       return Container();
+              //     }
+              //   },
+              // ),
               ExpressBannerView(
-                config: ExpressBannerConfig(iOSSlotId: kBannerId, androidSlotId: kBannerId, expressSize: PangleExpressSize.aspectRatio16_9() //PangleExpressSize.aspectRatio(3),
+                config: ExpressBannerConfig(
+                    iOSSlotId: "945804687",
+                    androidSlotId: "945804680",
+                    expressSize: PangleBannerExpressSize.withWidth(kPangleScreenWidth, BannerSize.banner_600_300) //PangleExpressSize.aspectRatio(3),
+
                     ),
+                onBannerViewCreated: (controller) {
+                  this.controller = controller;
+                },
               ),
+
+              // InkWell(
+              //   onTap: () {
+              //     pangle
+              //         .loadExpressBannerAd(
+              //       config: ExpressBannerConfig(
+              //         iOSSlotId: "945804687",
+              //         androidSlotId: "945804680",
+              //         expressSize: PangleBannerExpressSize.withWidth(kPangleScreenWidth, BannerSize.banner_600_300),
+              //       ),
+              //     )
+              //         .then((value) {
+              //       controller.update({});
+              //     });
+              //   },
+              //   child: ListTile(
+              //     title: Text("重新加载banner"),
+              //   ),
+              // ),
 
               InkWell(
                 onTap: () {

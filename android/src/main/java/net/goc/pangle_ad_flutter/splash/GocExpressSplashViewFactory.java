@@ -13,7 +13,7 @@ import io.flutter.plugin.platform.PlatformViewFactory;
 public class GocExpressSplashViewFactory extends PlatformViewFactory {
 
 
-    private  WeakReference<Activity> activity;
+    private  Activity activity;
     private  BinaryMessenger messenger;
     //private Bundle bundle;
 
@@ -28,11 +28,11 @@ public class GocExpressSplashViewFactory extends PlatformViewFactory {
     }
 
     public void attachActivity(Activity activity) {
-        this.activity = new WeakReference(activity);
+        this.activity = activity;
     }
 
     public void detachActivity() {
-        this.activity.clear();
+        //this.activity.clear();
         this.activity = null;
     }
 

@@ -113,44 +113,6 @@ class AndroidConfig {
   }
 }
 
-//个性化模板广告
-class ExpressBannerConfig {
-  final String iOSSlotId;
-  final String androidSlotId;
-  final PangleExpressSize expressSize;
-  final bool isUserInteractionEnabled;
-  final int interval;
-
-  /// The feed ad config for iOS
-  ///
-  /// [slotId] required. The unique identifier of a banner ad.
-  /// [expressSize] optional. 模板宽高
-  /// [isUserInteractionEnabled] 广告位是否可点击，true可以，false不可以
-  /// [interval] The carousel interval, in seconds, is set in the range of 30~120s,
-  ///   and is passed during initialization. If it does not meet the requirements,
-  ///   it will not be in carousel ad.
-  ExpressBannerConfig({
-    @required this.iOSSlotId,
-    @required this.androidSlotId,
-    this.expressSize,
-    this.isUserInteractionEnabled = true,
-    this.interval,
-  })  : assert(androidSlotId.isNotBlank),
-        assert(iOSSlotId.isNotBlank),
-        assert(expressSize != null);
-
-  /// Convert config to json
-  Map<String, dynamic> toJSON() {
-    return {
-      'iOSSlotId': iOSSlotId,
-      'androidSlotId': androidSlotId,
-      'expressSize': expressSize?.toJson(),
-      'isUserInteractionEnabled': isUserInteractionEnabled,
-      'interval': interval,
-    };
-  }
-}
-
 // 开屏广告配置
 class ExpressSplashConfig {
   final String iOSSlotId;

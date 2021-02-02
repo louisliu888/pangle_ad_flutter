@@ -13,32 +13,30 @@ import com.bytedance.sdk.openadsdk.TTAdManager;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.bytedance.sdk.openadsdk.TTCustomController;
-import com.bytedance.sdk.openadsdk.TTFeedAd;
 import com.bytedance.sdk.openadsdk.TTLocation;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 
-import net.goc.pangle_ad_flutter.factory.GocNativeExpressFeedAd;
-import net.goc.pangle_ad_flutter.listener.GocExpressFeedAdListener;
-import net.goc.pangle_ad_flutter.listener.GocExpressInterstitialAdListener;
-import net.goc.pangle_ad_flutter.listener.GocFullScreenAdListener;
+import net.goc.pangle_ad_flutter.feed.GocNativeExpressFeedAd;
+import net.goc.pangle_ad_flutter.feed.GocExpressFeedView;
+import net.goc.pangle_ad_flutter.interstitial.GocExpressInterstitialAdListener;
+import net.goc.pangle_ad_flutter.full_screen.GocFullScreenAdListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import io.flutter.plugin.common.MethodChannel;
 
 public class PangleAdManager {
 
     public static PangleAdManager shared = new PangleAdManager();
-    Context context;
+    Activity activity;
     private TTAdManager ttAdManager;
     private TTAdNative ttAdNative;
 
     private Map<String, GocNativeExpressFeedAd> feedAdCollection = new HashMap<String,GocNativeExpressFeedAd>();
+    private Map<String, TTNativeExpressAd> bannerAdCollection = new HashMap<String,TTNativeExpressAd>();
     /**
      * 初始化
      * @param activity
@@ -47,7 +45,7 @@ public class PangleAdManager {
     public void initialize(Activity activity, Map<String, Object> args) {
         Log.e("ad","beging init pangle ad SDK...................");
         if ( activity == null) return;
-        context = activity;
+        this.activity = activity;
 
 
         String appId = args.get("appId").toString();
@@ -55,7 +53,7 @@ public class PangleAdManager {
         boolean allowShowNotify = args.get("allowShowNotify")==null?true:(boolean)args.get("allowShowNotify");
         boolean allowShowPageWhenScreenLock = args.get("allowShowPageWhenScreenLock")==null?false:(boolean)args.get("allowShowPageWhenScreenLock");
         boolean supportMultiProcess = args.get("supportMultiProcess")==null?false:(boolean)args.get("supportMultiProcess");
-        boolean useTextureView = args.get("useTextureView")==null?false:(boolean)args.get("useTextureView");
+        boolean useTextureView = args.get("useTextureView")==null?true:(boolean)args.get("useTextureView");
         int directDownloadNetworkType = args.get("directDownloadNetworkType")==null?0:Integer.parseInt(args.get("directDownloadNetworkType").toString());
 
         boolean paid = args.get("paid")==null?false:(boolean)args.get("paid");
@@ -77,8 +75,8 @@ public class PangleAdManager {
         }
 
         //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
-        PackageManager packageManager = context.getPackageManager();
-        Context applicationContext = context.getApplicationContext();
+        PackageManager packageManager = activity.getPackageManager();
+        Context applicationContext = activity.getApplicationContext();
         PackageInfo pkgInfo = null;
         try {
             pkgInfo = packageManager.getPackageInfo(applicationContext.getPackageName(), 0);
@@ -109,7 +107,7 @@ public class PangleAdManager {
 
             @Override
             public TTLocation getTTLocation() {
-                return null;
+                return super.getTTLocation();
             }
             @Override
             public boolean alist() {
@@ -121,7 +119,7 @@ public class PangleAdManager {
             }
             @Override
             public String getDevImei() {
-                return null;
+                return super.getDevImei();
             }
             @Override
             public boolean isCanUseWifiState() {
@@ -133,7 +131,7 @@ public class PangleAdManager {
             }
             @Override
             public String getDevOaid() {
-                return null;
+                return super.getDevOaid();
             }
 
         };
@@ -192,7 +190,7 @@ public class PangleAdManager {
      */
     public void loadFeedExpressAd(AdSlot adSlot, Double width, Double height, MethodChannel.Result result) {
         Log.e("ERROR","加载信息流广告 loadFeedExpressAd==========================================================================");
-        ttAdNative.loadNativeExpressAd(adSlot,new GocExpressFeedAdListener(result,width,height));
+        ttAdNative.loadNativeExpressAd(adSlot,new GocExpressFeedView.GocExpressFeedAdListener(result,width,height));
     }
 
     public List<String> setFeedAd(List<TTNativeExpressAd> ttFeedAds,Double width,Double height)  {
@@ -211,6 +209,23 @@ public class PangleAdManager {
 
     public void removeFeedAd(String key) {
         feedAdCollection.remove(key);
+    }
+
+
+    public List<String> setBannerAd(String bannerCodeId,TTNativeExpressAd ttbannerAd)  {
+        List<String> data = new ArrayList<>();
+        //for(TTNativeExpressAd banner : ttbannerAds){
+        bannerAdCollection.put(bannerCodeId,ttbannerAd);
+        //}
+        return data;
+    }
+
+    public TTNativeExpressAd getBannerAd(String key ) {
+        return bannerAdCollection.get(key);
+    }
+
+    public void removeBannerAd(String key) {
+        bannerAdCollection.remove(key);
     }
 
 

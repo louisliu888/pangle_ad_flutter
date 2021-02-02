@@ -17,7 +17,7 @@ import io.flutter.plugin.platform.PlatformViewFactory;
 public class GocExpressBannerViewFactory extends PlatformViewFactory {
 
 
-    private WeakReference<Activity> activity;
+    //private Activity activity;
     private BinaryMessenger messenger;
     private Bundle bundle;
 
@@ -29,18 +29,18 @@ public class GocExpressBannerViewFactory extends PlatformViewFactory {
     @Override
     public PlatformView create(Context context, int viewId, Object args) {
         Log.d("Banner","Banner create========================================");
-        return new GocExpressBannerView(activity, this.messenger, viewId, args);
+        return new GocExpressBannerView( this.messenger, viewId, args,context);
     }
 
-    public void attachActivity( Activity activity) {
-        Log.d("Banner","Banner attachActivity========================================");
-        this.activity = new WeakReference(activity);
-    }
-
-    public void detachActivity() {
-        Log.d("Banner","Banner detachActivity========================================");
-        this.activity.clear();
-        this.activity = null;
-    }
+//    public void attachActivity( Activity activity) {
+//        Log.d("Banner","Banner attachActivity========================================");
+//        this.activity = activity;
+//    }
+//
+//    public void detachActivity() {
+//        Log.d("Banner","Banner detachActivity========================================");
+//        //this.activity.clear();
+//        this.activity = null;
+//    }
 
 }

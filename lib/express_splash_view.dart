@@ -161,6 +161,9 @@ class ExpressSplashViewController {
         case 'timeover':
           onTimeOver?.call();
           break;
+        case 'timeout':
+          onTimeOver?.call();
+          break;
         case 'show':
           onShow?.call();
           break;

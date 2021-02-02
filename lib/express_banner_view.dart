@@ -12,6 +12,106 @@ final kExpressBannerViewType = 'net.goc.oceantide/pangle_expressbannerview';
 
 typedef void ExpressBannerViewCreatedCallback(ExpressBannerViewController controller);
 
+class PangleBannerExpressSize {
+  double _width;
+  double _height;
+  PangleBannerExpressSize.withWidth(double pwidth, BannerSize size) {
+    _width = pwidth;
+    switch (size) {
+      case BannerSize.banner_600_300:
+        _height = _width * 300 / 600;
+        break;
+      case BannerSize.banner_600_400:
+        _height = _width * 400 / 600;
+        break;
+      case BannerSize.banner_600_500:
+        _height = _width * 500 / 600;
+        break;
+      case BannerSize.banner_600_260:
+        _height = _width * 260 / 600;
+        break;
+      case BannerSize.banner_600_90:
+        _height = _width * 90 / 600;
+        break;
+      case BannerSize.banner_600_150:
+        _height = _width * 150 / 600;
+        break;
+      case BannerSize.banner_640_100:
+        _height = _width * 100 / 640;
+        break;
+      case BannerSize.banner_690_388:
+        _height = _width * 388 / 690;
+        break;
+      default:
+        _height = _width * 9 / 16;
+    }
+  }
+
+  double get width {
+    return _width;
+  }
+
+  double get height {
+    return _height;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'width': _width,
+      'height': _height,
+    };
+  }
+}
+
+enum BannerSize {
+  banner_600_300,
+  banner_600_400,
+  banner_600_500,
+  banner_600_260,
+  banner_600_90,
+  banner_600_150,
+  banner_640_100,
+  banner_690_388,
+}
+
+//个性化模板广告
+class ExpressBannerConfig {
+  final String iOSSlotId;
+  final String androidSlotId;
+  final PangleBannerExpressSize expressSize;
+  final bool isUserInteractionEnabled;
+  final int interval;
+
+  /// The feed ad config for iOS
+  ///
+  /// [slotId] required. The unique identifier of a banner ad.
+  /// [expressSize] optional. 模板宽高
+  /// [isUserInteractionEnabled] 广告位是否可点击，true可以，false不可以
+  /// [interval] The carousel interval, in seconds, is set in the range of 30~120s,
+  ///   and is passed during initialization. If it does not meet the requirements,
+  ///   it will not be in carousel ad.
+  ExpressBannerConfig({
+    @required this.iOSSlotId,
+    @required this.androidSlotId,
+    this.expressSize,
+    this.isUserInteractionEnabled = true,
+    this.interval,
+  })  : assert(androidSlotId.isNotBlank),
+        assert(iOSSlotId.isNotBlank),
+        assert(expressSize != null);
+
+  /// Convert config to json
+  Map<String, dynamic> toJSON() {
+    return {
+      'iOSSlotId': iOSSlotId,
+      'androidSlotId': androidSlotId,
+      'expressSize': expressSize?.toJson(),
+      'isUserInteractionEnabled': isUserInteractionEnabled,
+      'interval': interval,
+    };
+  }
+}
+
 /// Display banner AD
 /// PlatformView does not support Android API level 19 or below.
 class ExpressBannerView extends StatefulWidget {
@@ -32,11 +132,11 @@ class ExpressBannerView extends StatefulWidget {
 
 class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   ExpressBannerViewController _controller;
-  final _kDevicePixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
+  //final _kDevicePixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
   bool _offstage = true;
   bool _removed = false;
-  double _adWidth = kPangleSize;
-  double _adHeight = kPangleSize;
+  double _adWidth = 100.00;
+  double _adHeight = 50.00;
 
   Size _lastSize;
 
@@ -49,6 +149,9 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
     var size = WidgetsBinding.instance.window.physicalSize;
     _lastSize = size;
     WidgetsBinding.instance.addObserver(this);
+    var expressSize = widget.config.expressSize;
+    _adWidth = expressSize == null ? size.width : expressSize.width;
+    _adHeight = expressSize == null ? 200 : expressSize.height;
   }
 
   @override
@@ -61,23 +164,33 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
   }
 
   @override
+  void didUpdateWidget(covariant ExpressBannerView oldWidget) {
+    print("banner didUpdateWidget=============================");
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void deactivate() {
+    print("banner deactivate============================");
+    super.deactivate();
+  }
+
+  @override
   void didChangeMetrics() {
+    print("didChangeMetrics============================");
     var size = WidgetsBinding.instance.window.physicalSize;
-    print("banner广告----->didChangeMetrics,_lastSize:${_lastSize}  --- size:${size}");
     if (_lastSize?.width != size.width || _lastSize?.height != size.height) {
       _lastSize = size;
-      _controller?._update(_createParams());
+      _controller?.update(_createParams());
     }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    print("build....................................................................................1");
     if (_removed) {
       return SizedBox.shrink();
     }
-    print("build....................................................................................22222");
     Widget body;
     try {
       Widget platformView;
@@ -104,15 +217,11 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
           layoutDirection: TextDirection.ltr,
         );
       }
-      print("build....................................................................................333333");
       if (platformView != null) {
-        print("build....................................................................................333333----2222222${_offstage}");
         body = Offstage(
           offstage: _offstage,
           child: Container(
-            color: Colors.red,
             alignment: Alignment.center,
-            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
             width: _adWidth,
             height: _adHeight,
             child: platformView,
@@ -120,13 +229,12 @@ class ExpressBannerViewState extends State<ExpressBannerView> with AutomaticKeep
         );
       }
     } on PlatformException {
-      print("build....................................................................................44444444");
+      print("ExpressBannerViewState create Error");
     }
     if (body == null) {
       body = SizedBox.shrink();
     }
 
-    print("build....................................................................................555555");
     return body;
   }
 
@@ -230,7 +338,7 @@ class ExpressBannerViewController {
     return null;
   }
 
-  Future<Null> _update(Map<String, dynamic> params) async {
+  Future<Null> update(Map<String, dynamic> params) async {
     await _methodChannel?.invokeMethod('update', params);
   }
 

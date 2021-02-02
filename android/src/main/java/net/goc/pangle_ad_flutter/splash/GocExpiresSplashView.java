@@ -35,11 +35,11 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
     Double expressWidth = 0.0 ;
     Double expressHeight = 0.0 ;
 
-    public GocExpiresSplashView(WeakReference<Activity> activity, BinaryMessenger messenger, int id, Object args) {
+    public GocExpiresSplashView(Activity activity, BinaryMessenger messenger, int id, Object args) {
         methodChannel = new MethodChannel(messenger, "net.goc.oceantide/pangle_expresssplashview_"+id);
         methodChannel.setMethodCallHandler(this);
         //context = activity;
-        container = new FrameLayout(activity.get());
+        container = new FrameLayout(activity);
 
 
         Map<String,Object> params = (Map<String,Object>)args;
@@ -56,8 +56,8 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
             int imgHeight = (int)(expressHeight * density);
             AdSlot adSlot = new AdSlot.Builder().setCodeId(slotId).setImageAcceptedSize(imgWidth,imgHeight).build();
             TTAdManager ttAdManager = TTAdSdk.getAdManager();
-            TTAdNative ttAdNative = ttAdManager.createAdNative(activity.get());
-            ttAdNative.loadSplashAd(adSlot, this);
+            TTAdNative ttAdNative = ttAdManager.createAdNative(activity);
+            ttAdNative.loadSplashAd(adSlot, this,timeout>3500 ? timeout:3500);
             invalidateView(expressWidth, expressHeight);
         }
 

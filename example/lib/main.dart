@@ -19,12 +19,12 @@ void main() {
 Future<Null> initPangle() async {
   await pangle.init(
     iOS: IOSConfig(
-      appId: "5129755",
+      appId: "5140694",
       logLevel: PangleLogLevel.error,
     ),
     android: AndroidConfig(
-      appId: "5129755",
-      debug: false,
+      appId: "5140692",
+      debug: true,
       allowShowNotify: true,
       allowShowPageWhenScreenLock: false,
     ),
@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       color: Colors.white,
-      home: Container(color: Colors.red, child: HomePage()),
+      home: Container(color: Colors.red, child: ExpressSplashPage()),
       initialRoute: '/',
       routes: {'/home': (context) => HomePage(), '/second': (context) => ExpressSplashPage()},
     );

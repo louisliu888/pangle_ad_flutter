@@ -5,13 +5,13 @@ import 'package:flutter/services.dart';
 
 import 'configs.dart';
 import 'constant.dart';
+import 'express_banner_view.dart';
 import 'model.dart';
 
 final pangle = PangleAd._();
 
 class PangleAd {
-  static const MethodChannel _channel =
-      const MethodChannel('neg.goc.oceantide/pangle_ad_flutter');
+  static const MethodChannel _channel = const MethodChannel('neg.goc.oceantide/pangle_ad_flutter');
 
   PangleAd._() {
     _channel.setMethodCallHandler((call) => _handleMethod(call));
@@ -112,6 +112,21 @@ class PangleAd {
       return PangleAdReturn.empty();
     }
     return PangleAdReturn.fromJsonMap(result);
+  }
+
+  /// Request interstitial ad data.
+  ///
+  /// [config] config for iOS and Android
+  /// return loaded ad count.
+  Future<PangleResult> loadExpressBannerAd({
+    ExpressBannerConfig config,
+  }) async {
+    Map<String, dynamic> result;
+    result = await _channel.invokeMapMethod(
+      'loadExpressBannerAd',
+      config.toJSON(),
+    );
+    return PangleResult.fromJson(result);
   }
 
   /// Request interstitial ad data.

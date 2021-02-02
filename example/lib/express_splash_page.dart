@@ -42,11 +42,7 @@ class _ExpressSplashPageState extends State<ExpressSplashPage> {
               children: <Widget>[
                 Expanded(
                   child: ExpressSplashView(
-                    config: ExpressSplashConfig(
-                        iOSSlotId: "887416348",
-                        androidSlotId: "887416348",
-                        expressSize:
-                            PangleExpressSize(width: 375, height: 667)),
+                    config: ExpressSplashConfig(iOSSlotId: "887431335", androidSlotId: "887431334", expressSize: PangleExpressSize(width: 375, height: 667)),
                     backgroundColor: Colors.white,
                     onTimeOver: _handleAdEnd,
                     onSkip: _handleAdEnd,
