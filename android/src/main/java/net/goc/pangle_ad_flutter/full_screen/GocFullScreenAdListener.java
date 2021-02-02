@@ -1,4 +1,4 @@
-package net.goc.pangle_ad_flutter.listener;
+package net.goc.pangle_ad_flutter.full_screen;
 
 import android.app.Activity;
 

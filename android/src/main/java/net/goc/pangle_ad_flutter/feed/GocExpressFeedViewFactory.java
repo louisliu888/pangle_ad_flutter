@@ -1,8 +1,10 @@
-package net.goc.pangle_ad_flutter.factory;
+package net.goc.pangle_ad_flutter.feed;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+
+import net.goc.pangle_ad_flutter.feed.GocExpressFeedView;
 
 import java.lang.ref.WeakReference;
 

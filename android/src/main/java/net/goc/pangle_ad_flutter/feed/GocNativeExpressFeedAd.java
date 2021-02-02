@@ -1,4 +1,4 @@
-package net.goc.pangle_ad_flutter.factory;
+package net.goc.pangle_ad_flutter.feed;
 
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 

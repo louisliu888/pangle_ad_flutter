@@ -1,8 +1,11 @@
-package net.goc.pangle_ad_flutter.factory;
+package net.goc.pangle_ad_flutter.banner;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+
+import net.goc.pangle_ad_flutter.banner.GocExpressBannerView;
 
 import java.lang.ref.WeakReference;
 
@@ -14,8 +17,8 @@ import io.flutter.plugin.platform.PlatformViewFactory;
 public class GocExpressBannerViewFactory extends PlatformViewFactory {
 
 
-    private  WeakReference<Activity> activity;
-    private  BinaryMessenger messenger;
+    private WeakReference<Activity> activity;
+    private BinaryMessenger messenger;
     private Bundle bundle;
 
     public GocExpressBannerViewFactory(BinaryMessenger messenger) {
@@ -25,14 +28,17 @@ public class GocExpressBannerViewFactory extends PlatformViewFactory {
 
     @Override
     public PlatformView create(Context context, int viewId, Object args) {
-        return new GocExpressBannerView(activity.get(), this.messenger, viewId, args);
+        Log.d("Banner","Banner create========================================");
+        return new GocExpressBannerView(activity, this.messenger, viewId, args);
     }
 
-    public void attachActivity(Activity activity) {
+    public void attachActivity( Activity activity) {
+        Log.d("Banner","Banner attachActivity========================================");
         this.activity = new WeakReference(activity);
     }
 
     public void detachActivity() {
+        Log.d("Banner","Banner detachActivity========================================");
         this.activity.clear();
         this.activity = null;
     }

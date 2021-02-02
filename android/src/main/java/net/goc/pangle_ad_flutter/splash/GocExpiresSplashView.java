@@ -1,23 +1,21 @@
 
-package net.goc.pangle_ad_flutter.factory;
+package net.goc.pangle_ad_flutter.splash;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
 import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.TTAdManager;
+import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAdSdk;
+import com.bytedance.sdk.openadsdk.TTSplashAd;
 
-import net.goc.pangle_ad_flutter.PangleAdManager;
-import net.goc.pangle_ad_flutter.listener.GocExpressBannerAdListener;
-import net.goc.pangle_ad_flutter.listener.GocExpressSplashAdListener;
-
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +24,7 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
-public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodCallHandler {
+public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodCallHandler, TTAdNative.SplashAdListener {
 
 
     private MethodChannel methodChannel;
@@ -37,11 +35,11 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
     Double expressWidth = 0.0 ;
     Double expressHeight = 0.0 ;
 
-    public GocExpiresSplashView(Context context, BinaryMessenger messenger, int id, Object args) {
+    public GocExpiresSplashView(WeakReference<Activity> activity, BinaryMessenger messenger, int id, Object args) {
         methodChannel = new MethodChannel(messenger, "net.goc.oceantide/pangle_expresssplashview_"+id);
         methodChannel.setMethodCallHandler(this);
         //context = activity;
-        container = new FrameLayout(context);
+        container = new FrameLayout(activity.get());
 
 
         Map<String,Object> params = (Map<String,Object>)args;
@@ -54,15 +52,12 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
             expressWidth  = (Double)expressArgs.get("width");
             expressHeight = (Double)expressArgs.get("height");
             float density = Resources.getSystem().getDisplayMetrics().density;
-//            AdSlot adSlot = new AdSlot.Builder()
-//                    .setCodeId(slotId) //广告位id
-//                    .setExpressViewAcceptedSize(expressWidth.floatValue(),expressHeight.floatValue()) //期望模板广告view的size,单位dp
-//                    .build();
             int imgWidth = (int)(expressWidth * density);
             int imgHeight = (int)(expressHeight * density);
             AdSlot adSlot = new AdSlot.Builder().setCodeId(slotId).setImageAcceptedSize(imgWidth,imgHeight).build();
-
-            PangleAdManager.shared.loadExpressSplashAd(adSlot, new GocExpressSplashAdListener(container,methodChannel),timeout);
+            TTAdManager ttAdManager = TTAdSdk.getAdManager();
+            TTAdNative ttAdNative = ttAdManager.createAdNative(activity.get());
+            ttAdNative.loadSplashAd(adSlot, this);
             invalidateView(expressWidth, expressHeight);
         }
 
@@ -105,5 +100,56 @@ public class GocExpiresSplashView implements PlatformView, MethodChannel.MethodC
     public void dispose() {
         Log.e("开屏广告","销毁......................................");
         container.removeAllViews();
+    }
+
+    @Override
+    public void onError(int code, String message) {
+        invokeAction(code, message ==null? "": message);
+    }
+
+    @Override
+    public void onTimeout() {
+        invokeAction(-1, "timeout");
+    }
+
+    private void invokeAction(int code, String message) {
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("code", code);
+        params.put("message",message);
+        methodChannel.invokeMethod("action", params);
+    }
+    @Override
+    public void onSplashAdLoad(TTSplashAd ttSplashAd) {
+        View splashView = ttSplashAd.getSplashView();
+        container.addView(splashView, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        ttSplashAd.setSplashInteractionListener(new TTSplashAd.AdInteractionListener() {
+            @Override
+            public void onAdClicked(View view, int type) {
+                Log.i("SplashAD:","onAdClicked=======================");
+                invokeAction(0,"click");
+
+            }
+
+            @Override
+            public void onAdShow(View view, int i) {
+                Log.i("SplashAD:","onAdShow=======================");
+                invokeAction(0,"show");
+            }
+
+            @Override
+            public void onAdSkip() {
+                Log.i("SplashAD:","onAdSkip=======================");
+                invokeAction(0,"skip");
+            }
+
+            @Override
+            public void onAdTimeOver() {
+                Log.i("SplashAD:","onAdTimeOver=======================");
+                invokeAction(0,"timeover");
+            }
+
+        });
+
+
     }
 }

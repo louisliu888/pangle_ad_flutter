@@ -1,8 +1,7 @@
-package net.goc.pangle_ad_flutter.factory;
+package net.goc.pangle_ad_flutter.splash;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 
 import java.lang.ref.WeakReference;
 
@@ -14,7 +13,7 @@ import io.flutter.plugin.platform.PlatformViewFactory;
 public class GocExpressSplashViewFactory extends PlatformViewFactory {
 
 
-    //private  WeakReference<Activity> activity;
+    private  WeakReference<Activity> activity;
     private  BinaryMessenger messenger;
     //private Bundle bundle;
 
@@ -25,16 +24,16 @@ public class GocExpressSplashViewFactory extends PlatformViewFactory {
 
     @Override
     public PlatformView create(Context context, int viewId, Object args) {
-        return new GocExpiresSplashView(context, this.messenger, viewId, args);
+        return new GocExpiresSplashView(activity, this.messenger, viewId, args);
     }
 
-//    public void attachActivity(Activity activity) {
-//        this.activity = new WeakReference(activity);
-//    }
-//
-//    public void detachActivity() {
-//        this.activity.clear();
-//        this.activity = null;
-//    }
+    public void attachActivity(Activity activity) {
+        this.activity = new WeakReference(activity);
+    }
+
+    public void detachActivity() {
+        this.activity.clear();
+        this.activity = null;
+    }
 
 }
